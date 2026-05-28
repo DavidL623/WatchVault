@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Details · Watch Vault</title>
+  <link rel="stylesheet" href="styles.css?v=20260528-restore-old">
+</head>
+<body>
+  <header class="detail-top">
+    <a class="button secondary" href="index.html?v=20260528-restore-old">Back home</a>
+    <select class="language-select" id="languageSelect" aria-label="Language"><option value="en">English</option><option value="zh">中文</option></select>
+    <button class="theme-toggle" type="button" id="themeToggle" aria-label="Toggle theme">Theme</button>
+  </header>
+  <main class="detail-layout">
+    <section class="detail-poster" id="detailPoster"><span id="detailInitial">D</span></section>
+    <section class="detail-card">
+      <p class="eyebrow" id="detailCategory">Category</p>
+      <h1 id="detailTitle">Loading...</h1>
+      <div id="publicFacts" class="public-facts"></div>
+      <p id="detailSummary" class="description"></p>
+      <p id="detailPath" class="path-text"></p>
+      <div class="detail-actions">
+        <button class="button primary" type="button" id="planButton">Add to watchlist</button>
+        <a class="button secondary hidden" id="watchNowButton" href="#">Watch now</a>
+        <a class="button secondary hidden" id="infoButton" href="#" target="_blank" rel="noopener">Info page</a>
+      </div>
+      <div class="rating-box"><strong>Your rating</strong><div id="ratingButtons" class="rating-buttons"></div></div>
+      <dl class="detail-info">
+        <div><dt>Folder</dt><dd id="detailFolder"></dd></div>
+        <div><dt>Files grouped</dt><dd id="detailVersions"></dd></div>
+        <div><dt>Recommendation reason</dt><dd id="detailReason"></dd></div>
+      </dl>
+    </section>
+  </main>
+  <script src="catalog.js?v=20260528-restore-old"></script>
+  <script src="app.js?v=20260528-restore-old"></script>
+</body>
+</html>

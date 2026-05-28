@@ -1,0 +1,15 @@
+# Local deployment config
+.vercel/
+
+# macOS and generated local launchers
+.DS_Store
+Watch Vault.app/
+Open Watch Vault.command
+Watch Vault Browser Bookmark.webloc
+WatchVault.iconset/
+
+# Python caches anywhere
+__pycache__/
+**/__pycache__/
+*.pyc
+**/*.pyc

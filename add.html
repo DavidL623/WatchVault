@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Add Show · David's Watch Vault</title>
+  <link rel="stylesheet" href="styles.css?v=20260528-restore-old">
+</head>
+<body>
+  <header class="dashboard-top compact-top">
+    <nav class="top-nav">
+      <a class="brand" href="index.html?v=20260528-restore-old"><span class="brand-icon">D</span><span>Watch Vault</span></a>
+      <div class="nav-links">
+        <a href="index.html?v=20260528-restore-old">Library</a>
+        <a href="watchlist.html?v=20260528-restore-old">Watchlist</a>
+        <select class="language-select" id="languageSelect" aria-label="Language"><option value="en">English</option><option value="zh">中文</option></select>
+        <button class="theme-toggle" type="button" id="themeToggle" aria-label="Toggle theme">Theme</button>
+      </div>
+    </nav>
+  </header>
+  <main>
+    <section class="section add-online-page">
+      <div class="section-heading tight"><div><p class="eyebrow">Add Show</p><h2>Search online</h2></div></div>
+      <form id="onlineAddForm" class="online-add-form">
+        <label for="onlineTitle">Movie, TV series, animation name or IMDb/Douban link</label>
+        <div class="online-search-row">
+          <input id="onlineTitle" type="search" placeholder="Try Blade Runner 2049, Pulp Fiction, 5 Centimeters per Second, or paste an IMDb/Douban link..." required>
+          <button class="button primary" type="submit">Find match</button>
+        </div>
+        <p class="muted">Search shows a preview first. Nothing is saved until you click Confirm add.</p>
+      </form>
+      <div id="onlineResult" class="online-result"></div>
+    </section>
+  </main>
+  <footer class="footer"><span>Private local collection page</span><span>Online lookup · preview before save · build 20260528-restore-old</span></footer>
+  <script src="catalog.js?v=20260528-restore-old"></script>
+  <script src="app.js?v=20260528-restore-old"></script>
+</body>
+</html>

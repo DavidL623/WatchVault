@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>David's Watch Vault</title>
+  <link rel="stylesheet" href="styles.css?v=20260528-restore-old">
+</head>
+<body>
+  <header id="top" class="dashboard-top">
+    <nav class="top-nav">
+      <a class="brand" href="index.html?v=20260528-restore-old"><span class="brand-icon">D</span><span>Watch Vault</span></a>
+      <div class="nav-links">
+        <a href="watchlist.html?v=20260528-restore-old">Watchlist</a>
+        <a href="add.html?v=20260528-restore-old">Add Show</a>
+        <select class="language-select" id="languageSelect" aria-label="Language"><option value="en">English</option><option value="zh">中文</option></select>
+        <button class="theme-toggle" type="button" id="themeToggle" aria-label="Toggle theme">Theme</button>
+      </div>
+    </nav>
+
+    <form id="filterForm" class="top-tools" aria-label="Library tools">
+      <input id="searchInput" type="search" placeholder="Search your library..." aria-label="Search your library">
+      <button class="mood-chip active" type="button" data-category-chip="">All</button>
+      <button class="mood-chip" type="button" data-category-chip="Movie">Movies</button>
+      <button class="mood-chip" type="button" data-category-chip="Show">TV Series</button>
+      <button class="mood-chip" type="button" data-category-chip="Animation">Animation</button>
+      <button class="button secondary surprise-button" type="button" id="surpriseButton">Surprise me</button>
+    </form>
+    <div id="managementBar" class="management-bar">
+      <button class="button secondary tiny" type="button" id="editLibraryButton">Edit Library</button>
+      <span class="version-pill">Updated build 20260528-restore-old</span>
+    </div>
+  </header>
+
+  <main>
+    <section class="stats-strip" aria-label="Library statistics">
+      <article><strong id="totalCount">0</strong><span>Clean titles</span></article>
+      <article><strong id="movieCount">0</strong><span>Movies</span></article>
+      <article><strong id="showCount">0</strong><span>Shows</span></article>
+      <article><strong id="animationCount">0</strong><span>Animation</span></article>
+    </section>
+
+    <section class="section recommendations">
+      <div class="section-heading tight"><div><p class="eyebrow">Recommendation</p><h2>Start here</h2></div><button class="button secondary tiny" type="button" id="refreshRecommendations">Refresh picks</button></div>
+      <div id="recommendations" class="feature-grid"></div>
+    </section>
+
+    <section id="movies" class="section shelf-section">
+      <div class="section-heading tight"><div><p class="eyebrow">Movies</p><h2>Film shelf</h2></div><a class="jump-link" href="#top">Back to search</a></div>
+      <div id="movieShelf" class="media-shelf"></div>
+    </section>
+
+    <section id="shows" class="section shelf-section alt">
+      <div class="section-heading tight"><div><p class="eyebrow">Shows</p><h2>Series shelf</h2></div><a class="jump-link" href="#top">Back to search</a></div>
+      <div id="showShelf" class="media-shelf list-mode"></div>
+    </section>
+
+    <section id="animations" class="section shelf-section">
+      <div class="section-heading tight"><div><p class="eyebrow">Animation</p><h2>Animation shelf</h2></div><a class="jump-link" href="#top">Back to search</a></div>
+      <div id="animationShelf" class="media-shelf"></div>
+    </section>
+  </main>
+
+  <button class="back-to-top hidden" id="backToTop" type="button">⌃ Back to top</button>
+
+  <footer class="footer"><span>Private local collection page</span><span>Saved library · watchlist · local ratings · build 20260528-restore-old</span></footer>
+  <script src="catalog.js?v=20260528-restore-old"></script>
+  <script src="app.js?v=20260528-restore-old"></script>
+</body>
+</html>

@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Watchlist · David's Watch Vault</title>
+  <link rel="stylesheet" href="styles.css?v=20260528-restore-old">
+</head>
+<body>
+  <header class="dashboard-top compact-top">
+    <nav class="top-nav">
+      <a class="brand" href="index.html?v=20260528-restore-old"><span class="brand-icon">D</span><span>Watch Vault</span></a>
+      <div class="nav-links">
+        <a href="index.html?v=20260528-restore-old">Library</a>
+        <a href="add.html?v=20260528-restore-old">Add Show</a>
+        <select class="language-select" id="languageSelect" aria-label="Language"><option value="en">English</option><option value="zh">中文</option></select>
+        <button class="theme-toggle" type="button" id="themeToggle" aria-label="Toggle theme">Theme</button>
+      </div>
+    </nav>
+  </header>
+  <main>
+    <section class="section watchlist-page">
+      <div class="section-heading tight"><div><p class="eyebrow">Watchlist</p><h2>Waiting room</h2></div><button class="button secondary" type="button" id="clearPlanButton">Clear watchlist</button></div>
+      <div id="plannedList" class="planned-list watchlist-grid"></div>
+    </section>
+  </main>
+  <footer class="footer"><span>Private local collection page</span><span>Saved for later · local ratings</span></footer>
+  <script src="catalog.js?v=20260528-restore-old"></script>
+  <script src="app.js?v=20260528-restore-old"></script>
+</body>
+</html>
