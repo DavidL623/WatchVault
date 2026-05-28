@@ -66,8 +66,8 @@
 .detail-fact-row span{color:var(--muted);font-size:12px;font-weight:900;text-transform:uppercase;letter-spacing:0}
 .detail-fact-row strong{color:var(--text);font-size:15px;line-height:1.35;font-weight:800}
 .detail-loading{color:var(--muted)}
-.theme-alt .card-rating{color:#e50914}
-.theme-alt .detail-rating{color:#e50914}
+.theme-alt .card-rating{color:#f2b84b}
+.theme-alt .detail-rating{color:#f2b84b}
 .feature-card .card-rating,
 .feature-card .card-rating .star,
 .poster-feature .card-rating,
@@ -79,7 +79,7 @@
 .theme-alt .feature-card .card-rating,
 .theme-alt .feature-card .card-rating .star,
 .theme-alt .poster-feature .card-rating,
-.theme-alt .poster-feature .card-rating .star{color:#e50914!important}
+.theme-alt .poster-feature .card-rating .star{color:#f2b84b!important}
 @media(max-width:640px){.public-facts{grid-template-columns:1fr;gap:10px}.detail-rating{place-items:start;min-height:0}.detail-fact-row{grid-template-columns:82px minmax(0,1fr)}}
 
 /* Add Show lookup feedback */
@@ -171,3 +171,9 @@
 .theme-alt .poster-picker{background:#101010;border-color:rgba(255,255,255,.14)}
 .theme-alt .poster-choice.active{border-color:#e50914;box-shadow:0 0 0 2px rgba(229,9,20,.42)}
 @media(max-width:520px){.poster-url-row{grid-template-columns:1fr}.poster-choice-grid{grid-template-columns:repeat(3,minmax(0,1fr))}}
+
+/* Keep IMDb-style rating accents yellow in the red theme */
+.theme-alt .rating-chip{background:rgba(242,184,75,.13);border-color:rgba(242,184,75,.42)}
+.theme-alt .rating-chip .star,
+.theme-alt .card-rating .star,
+.theme-alt .detail-rating .star{color:#f2b84b!important}

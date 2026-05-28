@@ -18,7 +18,7 @@ let recommendationOffset = 0;
 let recommendationHistory = readStorage("watchVaultRecommendationHistory", []);
 let lastRecommendationSignature = "";
 let pendingOnlineItem = null;
-const APP_VERSION = "20260528-restore-old";
+const APP_VERSION = "20260529-watchlist-icon";
 
 const knownOnlineItems = {
   tt2861424: {
@@ -1439,9 +1439,9 @@ function renderShelf(targetId, items, category) {
 
     return `
       <article class="media-item poster-card ${editMode ? "editing-card" : ""} ${item.category === "Show" ? "show-item" : item.category === "Animation" ? "animation-item" : "movie-item"}" data-card-id="${item.id}" draggable="${editMode ? "true" : "false"}">
-        <div class="poster-surface ${item.category}" data-poster-id="${item.id}">
+        <a class="poster-surface ${item.category}" href="${detailUrl(item.id)}" data-poster-id="${item.id}" aria-label="${t("details")}: ${getDisplayTitle(item)}">
           <span>${getInitial(item.title)}</span>
-        </div>
+        </a>
         <div class="media-info">
           <h3>${getDisplayTitle(item)}</h3>
           <p>${showMeta}</p>
@@ -1883,7 +1883,7 @@ function addToPlan(item) {
   }
   const plan = getPlan();
   if (!plan.some(saved => saved.id === item.id)) {
-    plan.push({ id: item.id, title: getDisplayTitle(item), category: item.category, note: item.note || item.summary || "", poster: item.poster || (getRule(item) && getRule(item).poster) || "", infoUrl: item.infoUrl || (getRule(item) && getRule(item).infoUrl) || "", summary: item.summary || (getRule(item) && getRule(item).summary) || "" });
+    plan.unshift({ id: item.id, title: getDisplayTitle(item), category: item.category, note: item.note || item.summary || "", poster: item.poster || (getRule(item) && getRule(item).poster) || "", infoUrl: item.infoUrl || (getRule(item) && getRule(item).infoUrl) || "", summary: item.summary || (getRule(item) && getRule(item).summary) || "" });
     writeStorage(planKey, plan);
   }
 }
@@ -1908,7 +1908,7 @@ function renderPlan() {
   box.innerHTML = plan.map(function (item) {
     return `
       <article class="media-item poster-card watchlist-card ${item.category === "Show" ? "show-item" : item.category === "Animation" ? "animation-item" : "movie-item"}">
-        <div class="poster-surface ${item.category || "Movie"}" data-poster-id="${item.id}"><span>${getInitial(item.title)}</span></div>
+        <a class="poster-surface ${item.category || "Movie"}" href="${detailUrl(item.id)}" data-poster-id="${item.id}" aria-label="${t("details")}: ${getDisplayTitle(item)}"><span>${getInitial(item.title)}</span></a>
         <div class="media-info">
           <h3>${getDisplayTitle(item)}</h3>
           <p>${getCategoryLabel(item.category || "Movie")} · ${getRatingLabel(item.id, ratings)}</p>
@@ -2006,12 +2006,16 @@ function saveOnlineItem(item) {
   const hidden = getHiddenItems().filter(saved => saved !== normalized.id && saved !== identity && saved !== token);
   writeStorage(hiddenKey, hidden);
   const customItems = getCustomItems().filter(saved => saved.id !== normalized.id && itemIdentity(saved) !== identity);
-  customItems.unshift(normalized);
+  customItems.push(normalized);
   writeCustomItems(customItems);
-  const order = getSavedOrder().filter(saved => saved !== token && saved !== normalized.id && saved !== identity);
-  order.unshift(token);
-  writeStorage(orderKey, order);
-  mediaItems = applyLibraryPrefs([normalized].concat(mediaItems.filter(saved => saved.id !== normalized.id && itemIdentity(saved) !== identity)));
+  const existingOrder = getSavedOrder().filter(saved => saved !== token && saved !== normalized.id && saved !== identity);
+  const currentOrder = mediaItems.map(itemOrderToken).filter(Boolean).filter(saved => saved !== token && saved !== normalized.id && saved !== identity);
+  const mergedOrder = [];
+  existingOrder.concat(currentOrder).forEach(function (saved) {
+    if (saved && !mergedOrder.includes(saved)) mergedOrder.push(saved);
+  });
+  writeStorage(orderKey, mergedOrder.concat(token));
+  mediaItems = applyLibraryPrefs(mediaItems.filter(saved => saved.id !== normalized.id && itemIdentity(saved) !== identity).concat(normalized));
 }
 
 function renderOnlinePreview(item, saved) {
