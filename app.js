@@ -18,7 +18,7 @@ let recommendationOffset = 0;
 let recommendationHistory = readStorage("watchVaultRecommendationHistory", []);
 let lastRecommendationSignature = "";
 let pendingOnlineItem = null;
-const APP_VERSION = "20260529-watchlist-icon";
+const APP_VERSION = "20260529-godfather3-fix";
 
 const knownOnlineItems = {
   tt2861424: {
@@ -104,6 +104,20 @@ const knownOnlineItems = {
     poster: "https://images.metahub.space/poster/medium/tt0068646/img",
     summary: "The aging patriarch of an organized crime dynasty transfers control of his clandestine empire to his reluctant son.",
     summaryZh: "黑手党家族年迈的教父逐渐把权力交给原本抗拒家族事业的小儿子。"
+  },
+  tt0071562: {
+    title: "The Godfather Part II", titleZh: "教父2", category: "Movie", rating: "9.0", releaseDate: "1974",
+    director: ["Francis Ford Coppola"], cast: ["Al Pacino", "Robert De Niro", "Robert Duvall", "Diane Keaton"],
+    poster: "https://images.metahub.space/poster/medium/tt0071562/img",
+    summary: "The early life of Vito Corleone is shown while Michael Corleone expands and tightens his grip on the family empire.",
+    summaryZh: "影片交错呈现年轻维托·柯里昂的崛起，以及迈克尔·柯里昂扩大家族势力并逐渐走向孤独的过程。"
+  },
+  tt0099674: {
+    title: "The Godfather Part III", titleZh: "教父3", category: "Movie", rating: "7.5", releaseDate: "1990",
+    director: ["Francis Ford Coppola"], cast: ["Al Pacino", "Diane Keaton", "Andy Garcia", "Talia Shire"],
+    poster: "https://images.metahub.space/poster/medium/tt0099674/img",
+    summary: "Michael Corleone, now older and seeking legitimacy, tries to free his family from crime while a new successor rises inside the empire.",
+    summaryZh: "年迈的迈克尔·柯里昂试图让家族摆脱犯罪、走向合法化，却在权力交接与旧债追索中再次被命运拖回黑暗。"
   },
   tt1520211: {
     title: "The Walking Dead", titleZh: "行尸走肉", category: "Show", rating: "8.1", releaseDate: "2010",
@@ -227,6 +241,18 @@ const knownTitleAliases = {
   "海上钢琴师": "tt0120731",
   "the godfather": "tt0068646",
   "教父": "tt0068646",
+  "the godfather part ii": "tt0071562",
+  "godfather part ii": "tt0071562",
+  "the godfather 2": "tt0071562",
+  "godfather 2": "tt0071562",
+  "教父2": "tt0071562",
+  "教父 2": "tt0071562",
+  "the godfather part iii": "tt0099674",
+  "godfather part iii": "tt0099674",
+  "the godfather 3": "tt0099674",
+  "godfather 3": "tt0099674",
+  "教父3": "tt0099674",
+  "教父 3": "tt0099674",
   "the walking dead": "tt1520211",
   "行尸走肉": "tt1520211",
   "13 reasons why": "tt1837492",
