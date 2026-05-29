@@ -11,6 +11,7 @@ let currentLanguage = localStorage.getItem(languageKey) || "en";
 const customKey = "watchVaultCustomItems";
 const hiddenKey = "watchVaultHiddenItems";
 const orderKey = "watchVaultOrder";
+const diskCatalogKey = "watchVaultDiskCatalog";
 const passwordKey = "watchVaultDeletePassword";
 let activeCategory = "";
 let editMode = false;
@@ -18,7 +19,7 @@ let recommendationOffset = 0;
 let recommendationHistory = readStorage("watchVaultRecommendationHistory", []);
 let lastRecommendationSignature = "";
 let pendingOnlineItem = null;
-const APP_VERSION = "20260529-godfather3-fix";
+const APP_VERSION = "20260529-disk-snapshot";
 
 const knownOnlineItems = {
   tt2861424: {
@@ -641,6 +642,9 @@ const uiText = {
     animation: "Animation",
     surprise: "Surprise me",
     refresh: "Refresh picks",
+    refreshDisk: "Refresh disk",
+    refreshDiskDone: "Disk library refreshed.",
+    refreshDiskOffline: "Disk is not available right now.",
     cleanTitles: "Clean titles",
     shows: "Shows",
     recommendation: "Recommendation",
@@ -729,6 +733,9 @@ const uiText = {
     animation: "动漫",
     surprise: "随便挑一部",
     refresh: "换一组",
+    refreshDisk: "刷新硬盘",
+    refreshDiskDone: "硬盘片库已刷新。",
+    refreshDiskOffline: "现在没有检测到硬盘。",
     cleanTitles: "整理后的条目",
     shows: "剧集",
     recommendation: "推荐",
@@ -863,6 +870,15 @@ function getHiddenItems() {
 
 function getSavedOrder() {
   return readStorage(orderKey, []);
+}
+
+function getDiskCatalogSnapshot(fallbackItems) {
+  const snapshot = readStorage(diskCatalogKey, null);
+  return Array.isArray(snapshot) && snapshot.length ? snapshot : fallbackItems;
+}
+
+function writeDiskCatalogSnapshot(items) {
+  writeStorage(diskCatalogKey, Array.isArray(items) ? items : []);
 }
 
 function revealSavedCustomItems(items) {
@@ -1217,16 +1233,38 @@ async function loadCatalog() {
       const data = await response.json();
       serverMode = true;
       diskConnected = Boolean(data.diskConnected);
-      const liveItems = data.items && data.items.length > 0 ? data.items : savedItems;
-      mediaItems = applyLibraryPrefs(liveItems.concat(customItems));
-      return;
     }
   } catch (error) {
     serverMode = false;
+    diskConnected = false;
   }
 
-  mediaItems = applyLibraryPrefs(savedItems.concat(customItems));
-  diskConnected = false;
+  const diskItems = getDiskCatalogSnapshot(savedItems);
+  mediaItems = applyLibraryPrefs(diskItems.concat(customItems));
+}
+
+async function refreshDiskCatalog() {
+  try {
+    const response = await fetch("/api/catalog?refresh=1");
+    if (!response.ok) throw new Error("catalog request failed");
+    const data = await response.json();
+    serverMode = true;
+    diskConnected = Boolean(data.diskConnected);
+    if (!diskConnected || !Array.isArray(data.items) || data.items.length === 0) {
+      await vaultAlert(t("refreshDiskOffline"));
+      return;
+    }
+    writeDiskCatalogSnapshot(data.items);
+    const customItems = getCustomItems();
+    mediaItems = applyLibraryPrefs(data.items.concat(customItems));
+    saveCurrentOrder();
+    renderLibrary();
+    await vaultAlert(t("refreshDiskDone"));
+  } catch (error) {
+    serverMode = false;
+    diskConnected = false;
+    await vaultAlert(t("refreshDiskOffline"));
+  }
 }
 
 function updateDiskStatus() {
@@ -1887,6 +1925,7 @@ function renderManagementBar() {
   }
   bar.innerHTML = `
     <button class="button secondary tiny" type="button" id="editLibraryButton">${editMode ? t("doneEditing") : t("editLibrary")}</button>
+    <button class="button quiet tiny" type="button" id="refreshDiskButton">${t("refreshDisk")}</button>
     ${editMode ? `<span class="edit-hint">${t("dragHint")}</span><button class="button quiet tiny" type="button" id="changePasswordButton">${t("changePassword")}</button>` : ""}
   `;
   const editButton = document.querySelector("#editLibraryButton");
@@ -1900,6 +1939,10 @@ function renderManagementBar() {
   const passwordButton = document.querySelector("#changePasswordButton");
   if (passwordButton) {
     passwordButton.addEventListener("click", async function () { await changeDeletePassword(); });
+  }
+  const refreshDiskButton = document.querySelector("#refreshDiskButton");
+  if (refreshDiskButton) {
+    refreshDiskButton.addEventListener("click", async function () { await refreshDiskCatalog(); });
   }
 }
 
@@ -2476,6 +2519,7 @@ function applyLanguageStatic() {
   setText('[data-category-chip="Animation"]', t("animation"));
   setText("#surpriseButton", t("surprise"));
   setText("#refreshRecommendations", t("refresh"));
+  setText("#refreshDiskButton", t("refreshDisk"));
   const statLabels = document.querySelectorAll(".stats-strip span");
   if (statLabels.length >= 4) {
     statLabels[0].textContent = t("cleanTitles");
