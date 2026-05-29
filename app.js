@@ -19,7 +19,7 @@ let recommendationOffset = 0;
 let recommendationHistory = readStorage("watchVaultRecommendationHistory", []);
 let lastRecommendationSignature = "";
 let pendingOnlineItem = null;
-const APP_VERSION = "20260529-hide-refresh-offline";
+const APP_VERSION = "20260529-no-flash-ui";
 
 const knownOnlineItems = {
   tt2861424: {
@@ -1032,16 +1032,33 @@ function ratingSourceLabel(info) {
   return String(info.infoUrl || info.sourceUrl || "").includes("douban.com") ? "Douban" : "IMDb";
 }
 
+function getImmediateInfo(item) {
+  item = normalizeOnlineItem(item);
+  const rule = getRule(item) || {};
+  const facts = getFactRule(item) || {};
+  return Object.assign({
+    rating: item.rating || facts.rating || "",
+    releaseDate: item.releaseDate || facts.releaseDate || "",
+    director: item.director && item.director.length ? item.director : facts.director || [],
+    directorEn: item.directorEn || [],
+    cast: item.cast && item.cast.length ? item.cast : facts.cast || [],
+    castEn: item.castEn || [],
+    ratingSource: item.ratingSource || facts.ratingSource || "",
+    infoUrl: item.infoUrl || item.sourceUrl || rule.infoUrl || "",
+    sourceUrl: item.sourceUrl || item.infoUrl || "",
+    thumbnail: item.poster || rule.poster || "",
+    extract: getLocalizedSummary(item, item.summary || rule.summary || item.note || getReason(item))
+  }, facts);
+}
+
 function formatCardFacts(info) {
-  if (!info) {
-    return `<span class="card-facts muted-chip">${t("imdbLoading")}</span>`;
-  }
+  if (!info) return "";
   const bits = [];
   const source = ratingSourceLabel(info);
   if (info.rating) bits.push(`<span class="card-rating"><span class="star">&#9733;</span><strong>${info.rating}</strong><small>${source}</small></span>`);
   const year = getReleaseYear(info);
   if (year) bits.push(`<span class="card-year">${year}</span>`);
-  return bits.length ? `<span class="card-facts">${bits.join("")}</span>` : `<span class="card-facts muted-chip">${t("imdbLoading")}</span>`;
+  return bits.length ? `<span class="card-facts">${bits.join("")}</span>` : "";
 }
 
 function localizedPeople(info, key) {
@@ -1056,9 +1073,7 @@ function localizedPeople(info, key) {
 }
 
 function formatPublicFacts(info) {
-  if (!info) {
-    return `<span class="detail-loading muted-chip">${t("imdbLoading")}</span>`;
-  }
+  if (!info) return "";
   const rows = [];
   const year = getReleaseYear(info);
   if (year) rows.push(`<div class="detail-fact-row"><span>${t("release")}</span><strong>${year}</strong></div>`);
@@ -1069,7 +1084,7 @@ function formatPublicFacts(info) {
   const source = ratingSourceLabel(info);
   const rating = info.rating ? `<div class="detail-rating"><span class="star">&#9733;</span><strong>${info.rating}</strong><small>${source}</small></div>` : "";
   const stack = rows.length ? `<div class="detail-fact-stack">${rows.join("")}</div>` : "";
-  return rating || stack ? `${rating}${stack}` : `<span class="detail-loading muted-chip">${t("imdbLoading")}</span>`;
+  return rating || stack ? `${rating}${stack}` : "";
 }
 function translateSummary(text) {
   const source = text || "";
@@ -1409,7 +1424,7 @@ function renderRecommendations(items) {
         <div>
           <span>${getCategoryLabel(item.category)}</span>
           <strong>${getDisplayTitle(item)}</strong>
-          <small class="credit-line" data-meta-id="${item.id}">${t("imdbLoading")}</small>
+          <small class="credit-line" data-meta-id="${item.id}">${formatCardFacts(getImmediateInfo(item))}</small>
           <small data-summary-id="${item.id}">${getLocalizedSummary(item, item.summary || item.note || "") || t("waitingNote")}</small>
         </div>
       </a>
@@ -1509,8 +1524,8 @@ function renderShelf(targetId, items, category) {
         <div class="media-info">
           <h3>${getDisplayTitle(item)}</h3>
           <p>${showMeta}</p>
-          <small class="credit-line" data-meta-id="${item.id}">${t("imdbLoading")}</small>
-          <small class="summary-line" data-summary-id="${item.id}"></small>
+          <small class="credit-line" data-meta-id="${item.id}">${formatCardFacts(getImmediateInfo(item))}</small>
+          <small class="summary-line" data-summary-id="${item.id}">${getLocalizedSummary(item, item.summary || item.note || getReason(item))}</small>
           <div class="card-actions">
             <a class="button secondary tiny" href="${detailUrl(item.id)}">${t("details")}</a>
             ${showButton}
@@ -1981,7 +1996,7 @@ function renderPlan() {
         <div class="media-info">
           <h3>${getDisplayTitle(item)}</h3>
           <p>${getCategoryLabel(item.category || "Movie")} · ${getRatingLabel(item.id, ratings)}</p>
-          <small class="credit-line" data-meta-id="${item.id}">${t("imdbLoading")}</small>
+          <small class="credit-line" data-meta-id="${item.id}">${formatCardFacts(getImmediateInfo(item))}</small>
           <small class="summary-line" data-summary-id="${item.id}">${getLocalizedSummary(item, item.summary || item.note || t("waitingNote"))}</small>
           <div class="card-actions">
             <a class="button secondary tiny" href="${detailUrl(item.id)}">${t("details")}</a>
@@ -2267,14 +2282,15 @@ function setupDetails() {
   document.querySelector("#detailPoster").classList.add(item.category || "Movie");
   document.querySelector("#detailCategory").textContent = getCategoryLabel(item.category);
   title.textContent = getDisplayTitle(item);
-  document.querySelector("#detailSummary").textContent = t("loadingInfo");
+  const immediateInfo = getImmediateInfo(item);
+  document.querySelector("#detailSummary").textContent = immediateInfo.extract || getReason(item);
   document.querySelector("#detailPath").textContent = item.note || (item.folder === "Online search" ? (currentLanguage === "zh" ? "通过在线资料添加到你的影视库。" : "Added from online lookup into your Watch Vault.") : t("localItem"));
   document.querySelector("#detailFolder").textContent = item.folder || t("manual");
   document.querySelector("#detailVersions").textContent = item.versions ? (currentLanguage === "zh" ? `${item.versions} 个合并文件` : `${item.versions} grouped file${item.versions > 1 ? "s" : ""}`) : t("manualItem");
   document.querySelector("#detailReason").textContent = getReason(item);
   const initialFacts = document.querySelector("#publicFacts");
   if (initialFacts) {
-    initialFacts.innerHTML = formatPublicFacts(null);
+    initialFacts.innerHTML = formatPublicFacts(immediateInfo);
   }
 
   document.querySelector("#planButton").addEventListener("click", function () {
@@ -2633,6 +2649,12 @@ async function boot() {
   setupAddOnline();
   setupDetails();
   setupBackToTop();
+  document.body.classList.remove("app-booting");
+  document.body.classList.add("app-ready");
 }
 
-boot();
+boot().catch(function (error) {
+  console.error(error);
+  document.body.classList.remove("app-booting");
+  document.body.classList.add("app-ready");
+});

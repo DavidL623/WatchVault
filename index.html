@@ -4,15 +4,15 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>David's Watch Vault</title>
-  <link rel="stylesheet" href="styles.css?v=20260529-hide-refresh-offline">
+  <link rel="stylesheet" href="styles.css?v=20260529-no-flash-ui">
 </head>
-<body>
+<body class="app-booting">
   <header id="top" class="dashboard-top">
     <nav class="top-nav">
-      <a class="brand" href="index.html?v=20260529-hide-refresh-offline"><span class="brand-icon">D</span><span>Watch Vault</span></a>
+      <a class="brand" href="index.html?v=20260529-no-flash-ui"><span class="brand-icon">D</span><span>Watch Vault</span></a>
       <div class="nav-links">
-        <a href="watchlist.html?v=20260529-hide-refresh-offline">Watchlist</a>
-        <a href="add.html?v=20260529-hide-refresh-offline">Add Show</a>
+        <a href="watchlist.html?v=20260529-no-flash-ui">Watchlist</a>
+        <a href="add.html?v=20260529-no-flash-ui">Add Show</a>
         <select class="language-select" id="languageSelect" aria-label="Language"><option value="en">English</option><option value="zh">中文</option></select>
         <button class="theme-toggle" type="button" id="themeToggle" aria-label="Toggle theme">Theme</button>
       </div>
@@ -33,10 +33,10 @@
 
   <main>
     <section class="stats-strip" aria-label="Library statistics">
-      <article><strong id="totalCount">0</strong><span>Clean titles</span></article>
-      <article><strong id="movieCount">0</strong><span>Movies</span></article>
-      <article><strong id="showCount">0</strong><span>Shows</span></article>
-      <article><strong id="animationCount">0</strong><span>Animation</span></article>
+      <article><strong id="totalCount"></strong><span>Clean titles</span></article>
+      <article><strong id="movieCount"></strong><span>Movies</span></article>
+      <article><strong id="showCount"></strong><span>Shows</span></article>
+      <article><strong id="animationCount"></strong><span>Animation</span></article>
     </section>
 
     <section class="section recommendations">
@@ -63,7 +63,7 @@
   <button class="back-to-top hidden" id="backToTop" type="button">⌃ Back to top</button>
 
   <footer class="footer"><span>Private local collection page</span><span>Saved library · watchlist · local ratings</span></footer>
-  <script src="catalog.js?v=20260529-hide-refresh-offline"></script>
-  <script src="app.js?v=20260529-hide-refresh-offline"></script>
+  <script src="catalog.js?v=20260529-no-flash-ui"></script>
+  <script src="app.js?v=20260529-no-flash-ui"></script>
 </body>
 </html>

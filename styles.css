@@ -27,7 +27,7 @@
 .language-select{min-height:36px;width:auto;padding:0 34px 0 12px;border:1px solid var(--line);border-radius:8px;color:var(--text);background:rgba(255,255,255,.08);font:inherit;font-weight:900;cursor:pointer}.credit-line{display:block;min-height:18px;color:var(--muted);font-size:12px;line-height:1.35}.public-facts{margin:0 0 14px;color:var(--gold);font-weight:900;line-height:1.5}.detail-info{display:none}.watchlist-grid{grid-template-columns:repeat(auto-fit,minmax(230px,1fr));justify-content:stretch}.theme-alt .language-select{color:#f5f5f1;background:#191919;border-color:rgba(255,255,255,.16)}
 
 /* Poster and IMDb facts hardening */
-.detail-poster,.theme-alt .detail-poster{width:100%;max-width:390px;aspect-ratio:2 / 3!important;min-height:0!important;align-self:start;background-size:contain!important;background-position:center!important;background-repeat:no-repeat!important;background-color:#10131b!important}.theme-alt .detail-poster{background-color:#111!important}.feature-poster,.poster-surface{background-size:contain!important;background-position:center!important;background-repeat:no-repeat!important}.movie-item .poster-surface{background-size:cover!important}.credit-line{min-height:34px;color:var(--gold);font-weight:800;display:-webkit-box;overflow:hidden;-webkit-box-orient:vertical;-webkit-line-clamp:2}.public-facts:empty::before{content:"IMDb info loading";color:var(--muted)}
+.detail-poster,.theme-alt .detail-poster{width:100%;max-width:390px;aspect-ratio:2 / 3!important;min-height:0!important;align-self:start;background-size:contain!important;background-position:center!important;background-repeat:no-repeat!important;background-color:#10131b!important}.theme-alt .detail-poster{background-color:#111!important}.feature-poster,.poster-surface{background-size:contain!important;background-position:center!important;background-repeat:no-repeat!important}.movie-item .poster-surface{background-size:cover!important}.credit-line{min-height:34px;color:var(--gold);font-weight:800;display:-webkit-box;overflow:hidden;-webkit-box-orient:vertical;-webkit-line-clamp:2}
 
 /* IMDb-style fact chips */
 .credit-line,.public-facts{display:flex;flex-wrap:wrap;gap:6px;align-items:center}.credit-line{min-height:64px}.public-facts{margin:0 0 18px}.fact-chip{display:inline-flex;align-items:center;gap:6px;max-width:100%;padding:7px 9px;border:1px solid var(--line);border-radius:8px;background:rgba(255,255,255,.07);color:var(--text);line-height:1.15}.fact-chip small{color:var(--muted);font-size:11px;font-weight:900;text-transform:uppercase}.fact-chip strong{font-size:12px;font-weight:900}.rating-chip{background:rgba(242,184,75,.13);border-color:rgba(242,184,75,.42)}.rating-chip .star{color:var(--gold);font-size:15px}.wide-chip{flex:1 1 100%;justify-content:flex-start}.wide-chip strong{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.public-facts .fact-chip{padding:10px 12px}.public-facts .fact-chip strong{font-size:14px}.muted-chip{color:var(--muted)}.theme-alt .fact-chip{background:#171717;border-color:rgba(255,255,255,.16)}.theme-alt .rating-chip{background:rgba(229,9,20,.13);border-color:rgba(229,9,20,.45)}.theme-alt .rating-chip .star{color:#e50914}
@@ -177,3 +177,16 @@
 .theme-alt .rating-chip .star,
 .theme-alt .card-rating .star,
 .theme-alt .detail-rating .star{color:#f2b84b!important}
+
+/* No-flash boot state and solid overscroll background */
+html{min-height:100%;background:#090b10;overscroll-behavior:none}
+body{min-height:100vh;background-color:var(--bg);background-attachment:fixed;overscroll-behavior:none}
+body.app-booting .stats-strip strong,
+body.app-booting #recommendations,
+body.app-booting #movieShelf,
+body.app-booting #showShelf,
+body.app-booting #animationShelf,
+body.app-booting #plannedList,
+body.app-booting .detail-layout{visibility:hidden}
+body.app-booting .stats-strip strong::after{content:"";display:block;min-height:1em}
+body.app-booting .detail-layout{min-height:calc(100vh - 84px)}
