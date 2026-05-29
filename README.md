@@ -14,6 +14,7 @@ A private local webpage for your own movie/show/animation collection.
 Best option:
 
 ```text
+https://watch-vault-zeta.vercel.app
 Open Watch Vault.command
 ```
 
