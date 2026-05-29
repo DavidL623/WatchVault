@@ -19,7 +19,7 @@ let recommendationOffset = 0;
 let recommendationHistory = readStorage("watchVaultRecommendationHistory", []);
 let lastRecommendationSignature = "";
 let pendingOnlineItem = null;
-const APP_VERSION = "20260529-disk-snapshot";
+const APP_VERSION = "20260529-hide-refresh-offline";
 
 const knownOnlineItems = {
   tt2861424: {
@@ -1925,7 +1925,7 @@ function renderManagementBar() {
   }
   bar.innerHTML = `
     <button class="button secondary tiny" type="button" id="editLibraryButton">${editMode ? t("doneEditing") : t("editLibrary")}</button>
-    <button class="button quiet tiny" type="button" id="refreshDiskButton">${t("refreshDisk")}</button>
+    ${serverMode && diskConnected ? `<button class="button quiet tiny" type="button" id="refreshDiskButton">${t("refreshDisk")}</button>` : ""}
     ${editMode ? `<span class="edit-hint">${t("dragHint")}</span><button class="button quiet tiny" type="button" id="changePasswordButton">${t("changePassword")}</button>` : ""}
   `;
   const editButton = document.querySelector("#editLibraryButton");
