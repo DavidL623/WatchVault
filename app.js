@@ -19,7 +19,7 @@ let recommendationOffset = 0;
 let recommendationHistory = readStorage("watchVaultRecommendationHistory", []);
 let lastRecommendationSignature = "";
 let pendingOnlineItem = null;
-const APP_VERSION = "20260529-no-flash-ui";
+const APP_VERSION = "20260529-language-no-flash";
 
 const knownOnlineItems = {
   tt2861424: {

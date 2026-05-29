@@ -181,6 +181,12 @@
 /* No-flash boot state and solid overscroll background */
 html{min-height:100%;background:#090b10;overscroll-behavior:none}
 body{min-height:100vh;background-color:var(--bg);background-attachment:fixed;overscroll-behavior:none}
+body.app-booting .brand span:last-child,
+body.app-booting .nav-links,
+body.app-booting .top-tools,
+body.app-booting #managementBar,
+body.app-booting .section-heading,
+body.app-booting .footer,
 body.app-booting .stats-strip strong,
 body.app-booting #recommendations,
 body.app-booting #movieShelf,
